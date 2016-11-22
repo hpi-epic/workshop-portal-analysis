@@ -11,6 +11,11 @@
       <th><%= model_class.human_attribute_name(:max_participants) %></th>
       <th><%= model_class.human_attribute_name(:active) %></th>
       <th><%= model_class.human_attribute_name(:created_at) %></th>
+
+      <th>Eventkind</th>
+      <th>Timespan</th>
+      <th>Status</th>
+
       <th><%=t '.actions', :default => t("helpers.actions") %></th>
     </tr>
   </thead>
@@ -23,6 +28,11 @@
         <td><%= workshop.max_participants %></td>
         <td><%= workshop.active %></td>
         <td><%=l workshop.created_at %></td>
+
+        <td>Workshop</td>
+        <td>01.01.2001 - 02.02.2002</td>
+        <td>saved</td>
+        
         <td>
           <%= link_to t('.edit', :default => t("helpers.links.edit")),
                       edit_workshop_path(workshop), :class => 'btn btn-default btn-xs' %>
