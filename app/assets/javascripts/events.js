@@ -1,17 +1,14 @@
 // Place all the behaviors and hooks related to the matching controller here.
 // All this logic will automatically be available in application.js.
 
-$(function() {
-  $('#event-add-date-picker').click(function() {
-    var template = EVENT_DATE_PICKER_TEMPLATE;
-
+$(document).on('turbolinks:load', function() {
+  $('#event-add-date-picker').bind('click', function() {
     // insert our template to the ui and add a remove button
-    $(template)
+    $(EVENT_DATE_PICKER_TEMPLATE)
       .insertBefore(this)
       .append(' <a style="float: none" class="close">&times;</a>')
       .find('.close')
       .click(function() {
-        // remove our template and decrement our count field
         $(this).parent('div').remove();
       });
   });

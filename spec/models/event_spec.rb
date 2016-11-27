@@ -25,14 +25,35 @@ describe Event do
 
     #checking if the event model can handle date_ranges
     expect(event.date_ranges.size).to eq 2
-    expect(event.date_ranges.first.start_date).to eq(Date.new(2016, 1, 1))
-    expect(event.date_ranges.first.end_date).to eq(Date.new(2016, 2, 1))
-    expect(event.date_ranges.second.start_date).to eq(Date.new(2017, 1, 1))
-    expect(event.date_ranges.second.end_date).to eq(Date.new(2017, 2, 1))
+    expect(event.date_ranges.first.start_date).to eq(Date.tomorrow)
+    expect(event.date_ranges.first.end_date).to eq(Date.tomorrow.next_day(5))
+    expect(event.date_ranges.second.start_date).to eq(Date.tomorrow)
+    expect(event.date_ranges.second.end_date).to eq(Date.tomorrow.next_day(10))
     expect(event.date_ranges.second).to eq(event.date_ranges.last)
 
-    #making sure that every event has at least one date range
-    event1 = FactoryGirl.create( :event, :without_date_ranges )
-    expect(event1).to_not be_valid
+    #making sure that every event has at least one date range...later...
+    #event1 = FactoryGirl.create( :event, :without_date_ranges )
+    #expect(event1).to_not be_valid
+  end
+
+  describe "#start_date" do
+    it "should return return its minimum over all date ranges" do
+      event = FactoryGirl.create :event, :with_multiple_date_ranges
+      expect(event.start_date).to eq(Date.today)
+    end
+  end
+
+  describe "#end_date" do
+    it "should return return its maximum over all date ranges" do
+      event = FactoryGirl.create :event, :with_multiple_date_ranges
+      expect(event.end_date).to eq(Date.today.next_day(16))
+    end
+  end
+
+  describe "#unreasonably_long" do
+    it "should be true if the event is longer than defined" do
+      event = FactoryGirl.create :event, :with_unreasonably_long_range
+      expect(event.unreasonably_long).to be true
+    end
   end
 end
