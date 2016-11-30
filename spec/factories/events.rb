@@ -21,8 +21,6 @@ FactoryGirl.define do
     active false
     organizer "Workshop-Organizer"
     knowledge_level "Workshop-Knowledge Level"
-
-    
     date_ranges { build_list :date_range, 1 }
 
     trait :with_two_date_ranges do
@@ -51,7 +49,7 @@ FactoryGirl.define do
     end
 
     trait :without_date_ranges do
-      date_ranges {}
+      date_ranges { [] }
     end
 	
     factory :event_with_accepted_applications do

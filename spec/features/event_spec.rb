@@ -51,7 +51,7 @@ describe "Event", type: :feature do
     #  start = page.all('.event-date-picker')[1].find('.event-date-picker-start')
     #  select_date_within_selector(second_from, start)
     #  select_date_within_selector(second_to, '.event-date-picker:nth-child(2) .event-date-picker-end')
-    #  click_button "Event erstellen"
+    #  click_button "Veranstaltung erstellen"
 
     #  expect(page).to have_text(first_from.to_s + ' bis ' + first_to.to_s)
     #  expect(page).to have_text(second_from.to_s + ' bis ' + second_to.to_s)
