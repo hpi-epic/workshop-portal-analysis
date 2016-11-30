@@ -5,9 +5,11 @@ Rails.application.routes.draw do
       only: :create
   end
   resources :events do
+    member do
+      get :email_list
+    end
     get 'badges'
     post 'badges' => 'events#print_badges', as: :print_badges
-  end
   resources :agreement_letters, only: [:show]
   resources :application_letters, path: 'applications' do
     resources :application_notes,
