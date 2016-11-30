@@ -6,7 +6,7 @@
 <% if @event.unreasonably_long %>
   <div class="panel panel-warning">
     <div class="panel-body">
-      End-Datum liegt ungewÃ¶hnlich weit vom Start-Datum entfernt.
+      End-Datum liegt ungewöhnlich weit vom Start-Datum entfernt.
     </div>
   </div>
 <% end %>
@@ -41,5 +41,5 @@
 <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
               event_path(@event),
               :method => 'delete',
-              :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Sicher, dass das Event gelÃ¶scht werden soll?')) },
+              :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Sicher, dass das Event gelöscht werden soll?')) },
               :class => 'btn btn-danger' %>

@@ -65,7 +65,7 @@ class Event < ActiveRecord::Base
 
   # validation function on whether we have at least one date range
   def has_date_ranges
-    errors.add(:base, 'Bitte mindestens eine Zeitspanne auswÃ¤hlen!') if date_ranges.blank?
+    errors.add(:base, 'Bitte mindestens eine Zeitspanne auswählen!') if date_ranges.blank?
   end
 
   def self.human_attribute_name(*args)
@@ -101,4 +101,20 @@ class Event < ActiveRecord::Base
 	return participant1.name <=> participant2.name
   end
   
+
+  # Returns the number of free places of the event, this value may be negative
+  #
+  # @param none
+  # @return [Int] for number of free places available
+  def compute_free_places
+    max_participants - compute_occupied_places
+  end
+
+  # Returns the number of already occupied places of the event
+  #
+  # @param none
+  # @return [Int] for number of occupied places
+  def compute_occupied_places
+    application_letters.where(status: true).count
+  end
 end

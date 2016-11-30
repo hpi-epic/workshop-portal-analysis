@@ -48,4 +48,11 @@ FactoryGirl.define do
   factory :rejected_application_letter, parent: :application_letter do
     status false
   end
+
+  factory :application_letter_accepted, class: :application_letter do
+    motivation "MyString"
+    user
+    event
+    status true
+  end
 end
