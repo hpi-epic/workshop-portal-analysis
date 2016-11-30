@@ -32,6 +32,11 @@ describe User do
     expect(user).to_not be_valid
   end
 
+  it "is created by user factory with the role coach" do
+    user = FactoryGirl.create(:user, role: :coach)
+    expect(user).to be_valid
+  end
+
   it "returns correct default accepted applications count" do
     application_letter = FactoryGirl.create(:application_letter)
     expect(application_letter.user.accepted_applications_count(application_letter.event)).to eq(0)

@@ -71,22 +71,6 @@ describe User do
     end
   end
 
-  %i[tutor organizer].each do |role|
-    it "can view applicants for an event" do
-      user = FactoryGirl.create(:user, role: role)
-      ability = Ability.new(user)
-
-      expect(ability).to be_able_to(:view_applicants, Event)
-    end
-  end
-
-  it "cannot view applicants for an event as pupil" do
-    user = FactoryGirl.create(:user, role: :pupil)
-    ability = Ability.new(user)
-
-    expect(ability).to_not be_able_to(:view_applicants, Event)
-  end
-
   it "can do everything as admin" do
     user = FactoryGirl.create(:user, role: :admin)
     ability = Ability.new(user)
@@ -113,6 +97,22 @@ describe User do
     expect(ability).to_not be_able_to(:edit, another_application)
     expect(ability).to_not be_able_to(:update, another_application)
     expect(ability).to_not be_able_to(:destroy, another_application)
+  end
+
+  it "can only ... coach" do
+    user = FactoryGirl.create(:user, role: :coach)
+    another_user = FactoryGirl.create(:user)
+    another_profile = FactoryGirl.create(:profile, user: another_user)
+    another_application = FactoryGirl.create(:application_letter, user: another_user)
+    ability = Ability.new(user)
+
+    expect(ability).to be_able_to(:index, Profile)
+    expect(ability).to be_able_to(:show, another_profile)
+
+    expect(ability).to_not be_able_to(:edit, another_profile)
+    expect(ability).to_not be_able_to(:update, another_profile)
+    expect(ability).to_not be_able_to(:destroy, another_profile)
+
   end
 
 end
