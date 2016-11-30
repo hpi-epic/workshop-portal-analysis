@@ -32,18 +32,21 @@ describe User do
     expect(user).to_not be_valid
   end
 
+<<<<<<< HEAD
   it "is created by user factory with the role coach" do
     user = FactoryGirl.create(:user, role: :coach)
     expect(user).to be_valid
   end
 
+=======
+>>>>>>> remotes/actual/25_4.1_LetterOfAgreement
   it "returns the user's events" do
-    true_letter = FactoryGirl.create(:accepted_application_letter)
-    false_letter = FactoryGirl.create(:rejected_application_letter)
-    application_letters = [true_letter, false_letter]
-    user = FactoryGirl.build(:user, application_letters: application_letters)
+    user = FactoryGirl.build(:user)
+    FactoryGirl.create(:application_letter_rejected, user: user)
+    true_letter = FactoryGirl.create(:application_letter_accepted, user: user)
     expect(user.events).to eq [true_letter.event]
   end
+<<<<<<< HEAD
   
   it "returns the correct letter of agreement for a given event" do
     event = FactoryGirl.create(:event)
@@ -55,6 +58,8 @@ describe User do
 	other_event = FactoryGirl.create(:event)
 	expect(user.agreement_letter_for_event?(other_event)).to eq false
   end
+=======
+>>>>>>> remotes/actual/25_4.1_LetterOfAgreement
 
   it "returns correct default accepted applications count" do
     application_letter = FactoryGirl.create(:application_letter)

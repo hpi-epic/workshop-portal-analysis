@@ -43,6 +43,14 @@ class Event < ActiveRecord::Base
   
   has_many :date_ranges
 
+  # Returns the agreement letter a user submitted for this event
+  #
+  # @param user [User] the user whose agreement letter we want
+  # @return [AgreementLetter, nil] the user's agreement letter or nil
+  def agreement_letter_for(user)
+    self.agreement_letters.where(user: user).take
+  end
+
   validates :max_participants, numericality: { only_integer: true, greater_than: 0 }
   validate :has_date_ranges
 

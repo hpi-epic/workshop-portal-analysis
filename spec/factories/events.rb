@@ -64,7 +64,7 @@ FactoryGirl.define do
         create_list(:rejected_application_letter, evaluator.rejected_application_letters_count, event: event)  
       end
     end
+  
+    end
   end
-  
-  
 end

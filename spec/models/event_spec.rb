@@ -21,6 +21,7 @@ describe Event do
     expect(event).to be_valid
   end
 
+<<<<<<< HEAD
   it "is either a camp or a workshop" do
     expect { FactoryGirl.build(:event, kind: :smth_invalid) }.to raise_error(ArgumentError)
 
@@ -103,6 +104,30 @@ describe Event do
       event = FactoryGirl.create :event, :with_unreasonably_long_range
       expect(event.unreasonably_long).to be true
     end
+=======
+  it "returns the event's participants" do
+    event = FactoryGirl.build(:event)
+    FactoryGirl.create(:application_letter_rejected, event: event)
+    true_letter = FactoryGirl.create(:application_letter_accepted, event: event)
+    expect(event.participants).to eq [true_letter.user]
+  end
+
+  it "returns a user's agreement letter for itself" do
+    event = FactoryGirl.create(:event)
+    user = FactoryGirl.create(:user)
+    irrelevant_user = FactoryGirl.create(:user)
+    FactoryGirl.create(:agreement_letter, user: irrelevant_user)
+    agreement_letter = FactoryGirl.create(:agreement_letter, user: user, event: event)
+    expect(event.agreement_letter_for(user)).to eq agreement_letter
+  end
+
+  it "returns nil if a user has not uploaded an agreement letter" do
+    event = FactoryGirl.create(:event)
+    user = FactoryGirl.create(:user)
+    irrelevant_user = FactoryGirl.create(:user)
+    FactoryGirl.create(:agreement_letter, user: irrelevant_user)
+    expect(event.agreement_letter_for(user)).to be_nil
+>>>>>>> remotes/actual/25_4.1_LetterOfAgreement
   end
 
   it "computes the number of free places" do
