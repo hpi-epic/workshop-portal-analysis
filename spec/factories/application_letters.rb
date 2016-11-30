@@ -40,4 +40,8 @@ FactoryGirl.define do
     event
     status true
   end
+
+  factory :accepted_application_letter, parent: :application_letter do
+    status true
+  end
 end

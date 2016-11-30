@@ -75,6 +75,22 @@ RSpec.describe EventsController, type: :controller do
     end
   end
 
+  describe "GET #badges" do
+    it "assigns the requested event as @event" do
+      event = Event.create! valid_attributes
+      get :badges, event_id: event.to_param, session: valid_session
+      expect(assigns(:event)).to eq(event)
+    end
+  end
+
+  describe "POST #badges" do
+    it "assigns the requested event as @event" do
+      event = Event.create! valid_attributes
+      post :print_badges, event_id: event.to_param, session: valid_session
+      expect(assigns(:event)).to eq(event)
+    end
+  end
+
   describe "POST #create" do
     context "with valid params" do
       it "creates a new Event" do
