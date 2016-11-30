@@ -21,7 +21,6 @@ describe Event do
     expect(event).to be_valid
   end
 
-<<<<<<< HEAD
   it "is either a camp or a workshop" do
     expect { FactoryGirl.build(:event, kind: :smth_invalid) }.to raise_error(ArgumentError)
 
@@ -31,7 +30,6 @@ describe Event do
     event = FactoryGirl.build(:event, kind: :workshop)
     expect(event).to be_valid
   end
-
   
   it "has as many participants as accepted applications" do
     event = FactoryGirl.create(:event_with_accepted_applications, accepted_application_letters_count: 10, rejected_application_letters_count: 7)
@@ -104,7 +102,8 @@ describe Event do
       event = FactoryGirl.create :event, :with_unreasonably_long_range
       expect(event.unreasonably_long).to be true
     end
-=======
+  end
+
   it "returns the event's participants" do
     event = FactoryGirl.build(:event)
     FactoryGirl.create(:application_letter_rejected, event: event)
@@ -127,7 +126,31 @@ describe Event do
     irrelevant_user = FactoryGirl.create(:user)
     FactoryGirl.create(:agreement_letter, user: irrelevant_user)
     expect(event.agreement_letter_for(user)).to be_nil
->>>>>>> remotes/actual/25_4.1_LetterOfAgreement
+  end
+  
+  it "checks if there are unclassified applications_letters" do
+    event = FactoryGirl.create(:event)
+    acceptedApplicationLetter = FactoryGirl.create(:application_letter, :event => event, :user => FactoryGirl.create(:user), :status => true)
+    event.application_letters.push(acceptedApplicationLetter)
+    expect(event.applicationsClassified?).to eq(true)
+
+    rejectedApplicationLetter = FactoryGirl.create(:application_letter, :event => event, :user => FactoryGirl.create(:user), :status => nil)
+    event.application_letters.push(rejectedApplicationLetter)
+    expect(event.applicationsClassified?).to eq(false)
+  end
+
+  it "computes the email addreses of the accepted and the rejected applications" do
+    event = FactoryGirl.create(:event)
+    acceptedApplicationLetter1 = FactoryGirl.create(:application_letter, :event => event, :user => FactoryGirl.create(:user), :status => true)
+    acceptedApplicationLetter2 = FactoryGirl.create(:application_letter, :event => event, :user => FactoryGirl.create(:user), :status => true)
+    acceptedApplicationLetter3 = FactoryGirl.create(:application_letter, :event => event, :user => FactoryGirl.create(:user), :status => true)
+    rejectedApplicationLetter = FactoryGirl.create(:application_letter, :event => event, :user => FactoryGirl.create(:user), :status => false)
+    event.application_letters.push(acceptedApplicationLetter1)
+    event.application_letters.push(acceptedApplicationLetter2)
+    event.application_letters.push(acceptedApplicationLetter3)
+    event.application_letters.push(rejectedApplicationLetter)
+    expect(event.compute_accepted_applications_emails).to eq([acceptedApplicationLetter1.user.email, acceptedApplicationLetter2.user.email, acceptedApplicationLetter3.user.email].join(','))
+    expect(event.compute_rejected_applications_emails).to eq([rejectedApplicationLetter.user.email].join(','))
   end
 
   it "computes the number of free places" do

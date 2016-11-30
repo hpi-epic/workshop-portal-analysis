@@ -14,3 +14,31 @@ $(document).on('turbolinks:load', function() {
   });
 });
 
+
+jQuery(function() {
+
+    $('#send-emails-modal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget);
+        var header = button.data('title');
+        var list = button.data('list');
+        var modal = $(this);
+        modal.find('.modal-title').text(header);
+        modal.find('#send-emails-mailto').attr('href', 'mailto:' + list);
+        modal.find('#send-emails-list').val(list);
+    });
+
+    $('#send-emails-clipboard').click(function () {
+        var $temp = $("<input>");
+        $('body').append($temp);
+        $temp.val($('#send-emails-list').val()).select();
+        try {
+            var successful = document.execCommand('copy');
+            var msg = successful ? 'successful' : 'unsuccessful';
+            console.log('Copying emails to the clipboard was ' + msg);
+        }
+        catch (err) {
+            console.log('Unable to copy emails to the clipboard');
+        }
+        $temp.remove();
+    });
+});

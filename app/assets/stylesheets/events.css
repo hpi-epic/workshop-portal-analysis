@@ -34,3 +34,9 @@
 .agreement-letter-unnecessary {
 	color: gray;
 }
+.tooltip-wrapper {
+    display: inline-block;
+}
+.tooltip .btn[disabled] {
+    pointer-events: none;
+}
