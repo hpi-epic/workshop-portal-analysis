@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  post 'agreement_letters/create'
+  get 'agreement_letters/show'
+
   resources :requests
   resources :application_letters, path: 'applications' do
     resources :application_notes,
@@ -7,6 +10,11 @@ Rails.application.routes.draw do
   resources :events do
     get 'badges'
     post 'badges' => 'events#print_badges', as: :print_badges
+  end
+  resources :agreement_letters, only: [:show]
+  resources :application_letters, path: 'applications'
+  resources :events do
+    resources :agreement_letters, only: [:create]
   end
   resources :profiles
   devise_for :users

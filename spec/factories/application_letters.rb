@@ -21,9 +21,9 @@ FactoryGirl.define do
     vegan false
     allergic true
     allergies "Many"
-    user
-    event
-    status nil
+    association :user, factory: :user_with_profile
+	event
+	status nil
   end
 
   factory :application_letter_accepted, class: :application_letter do
@@ -43,5 +43,9 @@ FactoryGirl.define do
 
   factory :accepted_application_letter, parent: :application_letter do
     status true
+  end
+
+  factory :rejected_application_letter, parent: :application_letter do
+    status false
   end
 end

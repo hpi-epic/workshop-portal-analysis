@@ -37,6 +37,25 @@ describe User do
     expect(user).to be_valid
   end
 
+  it "returns the user's events" do
+    true_letter = FactoryGirl.create(:accepted_application_letter)
+    false_letter = FactoryGirl.create(:rejected_application_letter)
+    application_letters = [true_letter, false_letter]
+    user = FactoryGirl.build(:user, application_letters: application_letters)
+    expect(user.events).to eq [true_letter.event]
+  end
+  
+  it "returns the correct letter of agreement for a given event" do
+    event = FactoryGirl.create(:event)
+	user = FactoryGirl.create(:user)
+	application_letter = FactoryGirl.create(:accepted_application_letter, event: event, user: user)
+	agreement_letter = FactoryGirl.create(:agreement_letter, event: event, user: user)
+	expect(user.agreement_letter_for_event?(event)).to eq true
+	expect(user.agreement_letter_for_event(event)).to eq agreement_letter
+	other_event = FactoryGirl.create(:event)
+	expect(user.agreement_letter_for_event?(other_event)).to eq false
+  end
+
   it "returns correct default accepted applications count" do
     application_letter = FactoryGirl.create(:application_letter)
     expect(application_letter.user.accepted_applications_count(application_letter.event)).to eq(0)

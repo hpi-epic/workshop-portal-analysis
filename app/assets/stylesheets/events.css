@@ -6,3 +6,23 @@
 #applicants_overview {
     margin-bottom: 20px;
 }
+
+.event-date-picker-start, .event-date-picker-end {
+	display: inline-block;
+}
+
+#event-add-date-picker {
+	margin-top: 6px;
+}
+
+.agreement-letter-missing {
+	color: red;
+}
+
+.agreement-letter-available {
+	color: green;
+}
+
+.agreement-letter-unnecessary {
+	color: gray;
+}
