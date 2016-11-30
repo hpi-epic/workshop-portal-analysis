@@ -8,6 +8,7 @@
 #  event_id    :integer          not null
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
+#  status      :integer          not null
 #
 
 FactoryGirl.define do
@@ -21,9 +22,8 @@ FactoryGirl.define do
     vegan false
     allergic true
     allergies "Many"
-    association :user, factory: :user_with_profile
-	event
-	status nil
+    user
+    event
   end
 
   factory :application_letter_accepted, class: :application_letter do
@@ -38,7 +38,7 @@ FactoryGirl.define do
     allergies "Many"
     user
     event
-    status true
+    status :accepted
   end
 
   factory :accepted_application_letter, parent: :application_letter do
@@ -54,5 +54,20 @@ FactoryGirl.define do
     user
     event
     status true
+  end
+
+  factory :application_letter_rejected, class: :application_letter do
+    grade 10
+    experience "None"
+    motivation "None"
+    coding_skills "None"
+    emergency_number "01234567891"
+    vegeterian false
+    vegan false
+    allergic true
+    allergies "Many"
+    user
+    event
+    status :rejected
   end
 end
