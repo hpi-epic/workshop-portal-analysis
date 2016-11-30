@@ -20,4 +20,18 @@ class ApplicationLetter < ActiveRecord::Base
   validates :vegeterian, :vegan, :allergic, inclusion: { in: [true, false] }
   validates :vegeterian, :vegan, :allergic, exclusion: { in: [nil] }
 
+  # Checks if the deadline is over
+  #
+  # @param none
+  # @return [Boolean] true if deadline is over
+  def after_deadline?
+
+    # hardcode deadline until
+    # event model is ready in #18 - US_1.4: Application deadline
+    deadline = DateTime.new(2016,9,1,17)
+
+    now = Time.now.utc.to_datetime
+    now > deadline
+  end
+
 end
