@@ -16,6 +16,7 @@ FactoryGirl.define do
     name "Event-Name"
     description "Event-Description"
     max_participants 1
+    kind :workshop
     active false
     organizer "Workshop-Organizer"
     knowledge_level "Workshop-Knowledge Level"

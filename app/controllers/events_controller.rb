@@ -113,7 +113,7 @@ class EventsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def event_params
-      params.require(:event).permit(:name, :description, :max_participants, :active)
+      params.require(:event).permit(:name, :description, :max_participants, :active, :kind)
     end
 
     def create_badge(pdf, x, y)
