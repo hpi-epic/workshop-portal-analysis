@@ -4,7 +4,7 @@ require 'rails_helper'
 require "cancan/matchers"
 
 describe User do
-  %i[pupil tutor].each do |role|
+  %i[pupil coach].each do |role|
     it "can create its profile" do
       user = FactoryGirl.create(:user, role: role)
       ability = Ability.new(user)
@@ -90,7 +90,7 @@ describe User do
     expect(ability).to be_able_to(:show, another_application)
   end
 
-  %i[tutor organizer].each do |role|
+  %i[coach organizer].each do |role|
     it "can view and add notes to application letters" do
       user = FactoryGirl.create(:user, role: role)
       ability = Ability.new(user)

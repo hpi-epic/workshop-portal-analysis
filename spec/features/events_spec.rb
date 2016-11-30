@@ -9,7 +9,7 @@ RSpec.feature "Event Applicant Overview", :type => :feature do
   end
 
   scenario "logged in as Coach I can see overview" do
-    login(:tutor)
+    login(:coach)
     expect(page).to have_table("applicants")
     expect(page).to have_css("div#free_places")
     expect(page).to have_css("div#occupied_places")
