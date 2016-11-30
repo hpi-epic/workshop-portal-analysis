@@ -31,7 +31,7 @@ describe "Event", type: :feature do
       select_date_within_selector(Date.today, '.event-date-picker-start')
       select_date_within_selector(Date.today.next_year(3), '.event-date-picker-end')
       find("input[name='commit']").click
-      expect(page).to have_text("End-Datum liegt ungewÃ¶hnlich weit vom Start-Datum entfernt.")
+      expect(page).to have_text("End-Datum liegt ungewöhnlich weit vom Start-Datum entfernt.")
     end
 
     # we currently don't have js support
@@ -47,7 +47,7 @@ describe "Event", type: :feature do
       fill_in 'Maximale Teilnehmerzahl', :with => 25
       select_date_within_selector(first_from, '.event-date-picker-start')
       select_date_within_selector(first_to, '.event-date-picker-end')
-      click_link "Zeitspanne hinzufÃ¼gen"
+      click_link "Zeitspanne hinzufügen"
 
     #  start = page.all('.event-date-picker')[1].find('.event-date-picker-start')
     #  select_date_within_selector(second_from, start)
@@ -138,4 +138,47 @@ describe "Event", type: :feature do
   #        event = Event.find_by_name('Event Name')
   #        expect(event.application_deadline).to eq(deadline)
   #end
+end
+RSpec.feature "Draft events", :type => :feature do
+  before(:each) do
+    @event = FactoryGirl.create(:event, draft: nil)
+
+    visit new_event_path
+    fill_in "event_name", :with => @event.name
+    fill_in "event_description", :with => @event.description
+    fill_in "event_max_participants", :with => @event.max_participants
+    fill_in "event_active", :with => @event.active
+  end
+
+  scenario "User saves a draft event, but doesn't publish it" do
+    draft_button.click()
+
+    # Show success alert
+    expect(page).to have_css(".alert-success")
+
+    # The event should not be visible in the events list
+    visit events_path
+    expect(page).to_not have_text(@event.name)
+  end
+
+  scenario "User revisits a saved draft event and publishes it" do
+    draft_button.click()
+
+    visit edit_event_path(@event)
+    publish_button.click()
+
+    expect(page).to have_css(".alert-success")
+
+    # The event should now be visible in the events list
+    visit events_path
+    expect(page).to have_text(@event.name)
+  end
+end
+
+def draft_button
+  find(:xpath, "//input[contains(@name, 'draft')]")
+end
+
+def publish_button
+  find(:xpath, "//input[contains(@name, 'publish')]")
 end

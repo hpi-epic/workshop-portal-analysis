@@ -63,6 +63,7 @@ ActiveRecord::Schema.define(version: 20161129164722) do
     t.datetime "created_at",           null: false
     t.datetime "updated_at",           null: false
     t.date     "application_deadline"
+    t.boolean  "draft"
   end
 
   create_table "profiles", force: :cascade do |t|

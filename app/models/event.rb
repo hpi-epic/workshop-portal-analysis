@@ -125,4 +125,6 @@ class Event < ActiveRecord::Base
   def compute_occupied_places
     application_letters.where(status: true).count
   end
+
+  scope :draft_is, ->(draft) { where("draft = ?", draft) }
 end

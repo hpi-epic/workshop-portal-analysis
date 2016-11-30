@@ -3,7 +3,7 @@ class EventsController < ApplicationController
 
   # GET /events
   def index
-    @events = Event.all
+    @events = Event.draft_is false
   end
 
   # GET /events/1
@@ -27,6 +27,8 @@ class EventsController < ApplicationController
 
     @event.date_ranges = date_range_params
 
+    @event.draft = (params[:draft] != nil)
+
     if @event.save
       redirect_to @event, notice: 'Event wurde erstellt.'
     else
@@ -42,8 +44,10 @@ class EventsController < ApplicationController
       attrs[:date_ranges] = date_range_params
     end
 
+    @event.draft = (params[:commit] == "draft")
     if @event.update(attrs)
       redirect_to @event, notice: 'Event wurde aktualisiert.'
+
     else
       render :edit
     end
@@ -52,7 +56,7 @@ class EventsController < ApplicationController
   # DELETE /events/1
   def destroy
     @event.destroy
-    redirect_to events_url, notice: 'Event wurde gelÃ¶scht.'
+    redirect_to events_url, notice: 'Event wurde gelöscht.'
   end
 
   # GET /events/1/badges
